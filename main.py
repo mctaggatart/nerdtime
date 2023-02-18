@@ -1,60 +1,95 @@
-# This is a sample Python script.
-import time
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+"""The LinkedList code from before is provided below.
+Add three functions to the LinkedList.
+"print" prints out the elements
+"delete" will delete the first element with that
+particular value.
+"append"
+"""
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-def ifelse_example(veracity):
-    if veracity == True:
-        print('True')
-    else:
-        print('False')
-def while_example(reps):
-    i = 0
-    while i < len(reps):
-        print(reps[i])
-        i += 1
-def for_example(fruits):
-    for x in range(0,3,2):
-        print(fruits[x])
+class Node(object):
+    def __init__(self, value):
+        self.value = value
+        self.next = None
 
-def for_example_basic(fruits):
-    for x in fruits:
-        print(x)
-def fizz_buzz (number):
-    outstring = ""
-    for y in range(number):
-        outstring = ""
-        if (y % 3 == 0):
-            outstring = outstring+"Fizz"
 
-        if (y % 5 == 0):
-            outstring = outstring+"Buzz"
+class LinkedList(object):
+    def __init__(self, head=None):
+        self.head = head
 
-        print(y, ": ", outstring)
-  #  fizzy=''
-  #  for y in range(number):
-      #  if(y%3==0):
-       #    fizzy=('fizz')
-           # print('fizz')
-     #   if(y%5==0):
-       #     print('buzz')
-  #  print(fizzy)
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-  #  print_hi("PyCharm")
-   # ifelse_example(True)
-   #while_example(["apple", "banana", "cherry"])
-   # start = time.time()
-  #  x = input()
-   # for_example_basic(x)
-  #  fizz_buzz(16)
-  for_example(["apple", "banana", "cherry"])
-   # for_example(["goldendoodle", "banana", "cherry"])
-   # for_example_basic("Caffiene")
-   # end = time.time()
-    #print("exec time", (end-start) * 10**3, "ms")
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    def append(self, new_node):
+        current = self.head
+        if current:
+            while current.next:
+                current = current.next
+            current.next = new_node
+        else:
+            self.head = new_node
+
+    def print(self):
+        current = self.head
+        while current:
+            print(current.value)
+            current = current.next
+
+    def insert(self, new_element, position):
+        """Insert a new node at the given position.
+        Assume the first position is "1".
+        Inserting at position 3 means between
+        the 2nd and 3rd elements."""
+        count = 1
+        current = self.head
+        if position == 1:
+            new_element.next = self.head
+            self.head = new_element
+        while current:
+            if count + 1 == position:
+                new_element.next = current.next
+                current.next = new_element
+                return
+            else:
+                count += 1
+                current = current.next
+
+        pass
+
+    def delete(self, value):
+        """Delete the first node with a given value."""
+        current = self.head
+        if current.value == value:
+            self.head = current.next
+        else:
+            while current:
+                if current.value == value:
+                    break
+                prev = current
+                current = current.next
+            if current == None:
+                return
+            prev.next = current.next
+            current = None
+
+
+# Test cases
+# Set up some Elements
+e1 = Node(1)
+e2 = Node(2)
+e3 = Node(3)
+e4 = Node(4)
+
+# Start setting up a LinkedList
+ll = LinkedList(e1)
+
+ll.append(e2)
+ll.append(e3)
+
+# Test get_position
+# Should print 3
+print("print 3", ll.head.next.next.value)
+
+# Test insert
+ll.insert(e4, 3)
+
+# Test delete
+ll.delete(1)
+print(ll.print())
